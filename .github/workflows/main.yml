@@ -1,0 +1,33 @@
+name: CI Process
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+
+      - name: Install required packages
+        run: |
+          pip install pylint  # Установка линтера, если планируем линтить текстовые файлы
+      - name: Lint text files
+        run: |
+          for file in *.txt; do
+            if [ -s "$file" ]; then
+              echo "$file is not empty"
+            else
+              echo "$file is empty"
+              exit 1  # Ошибка, если текстовый файл пустой
+            fi
+          done
