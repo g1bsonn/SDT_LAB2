@@ -2,7 +2,7 @@
 Модуль для тестирования калькулятора.
 """
 import pytest
-from calculator import add, subtract, multiply, divide, power, factorial
+from calculator import add, subtract, multiply, divide
 
 def test_add():
     """Получение суммы"""
