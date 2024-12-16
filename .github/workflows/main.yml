@@ -1,14 +1,21 @@
+
 name: CI Process
 
 on:
   push:
     branches:
       - main
+      - development
+      - release
+  pull_request:
+    branches:
+      - main
+      - development
+      - release
 
 jobs:
   lint:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -20,7 +27,7 @@ jobs:
 
       - name: Install required packages
         run: |
-          pip install pylint  # Установка линтера, если планируем линтить текстовые файлы
+          pip install pylint pytest
       - name: Lint text files
         run: |
           for file in *.txt; do
@@ -28,6 +35,18 @@ jobs:
               echo "$file is not empty"
             else
               echo "$file is empty"
-              exit 1  # Ошибка, если текстовый файл пустой
+              exit 1
             fi
           done
+      - name: Run tests
+        run: |
+          pytest
+  auto-merge:
+    runs-on: ubuntu-latest
+    needs: lint
+    if: github.event_name == 'pull_request' && success()
+    steps:
+      - name: Auto-merge PR
+        uses: pascalgn/automerge-action@v0.14.3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
