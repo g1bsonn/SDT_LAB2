@@ -2,7 +2,7 @@
 Модуль для тестирования калькулятора.
 """
 import pytest
-from calculator import add, subtract, multiply, divide
+from calculator import add, subtract, multiply, divide, power, factorial
 
 def test_add():
     """Получение суммы"""
@@ -41,4 +41,24 @@ def test_divide_by_zero():
         divide(10, 0)
     with pytest.raises(ValueError):
         divide(-10, 0)  # Тест с отрицательным числом
+
+def test_power():
+    """Получение суммы"""
+    assert power(2, 3) == 8
+    assert power(5, 0) == 1
+    assert power(-3, 3) == -27
+    assert power(2, -2) == 0.25  # Тест с отрицательной степенью
+    assert power(2, 0.5) == 1.4142135623730951  # Тест с дробной степенью
+
+def test_factorial():
+    """Получение суммы"""
+    assert factorial(5) == 120
+    assert factorial(0) == 1
+    assert factorial(1) == 1
+    assert factorial(3) == 6  # Дополнительный тест для значения 3
+
+    with pytest.raises(ValueError):
+        factorial(-1)
+    with pytest.raises(ValueError):
+        factorial(-5)  # Тест с другим отрицательным числом
 
