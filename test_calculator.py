@@ -52,9 +52,9 @@ def test_power():
 
 def test_factorial():
     """Получение суммы"""
-    assert factorial(5) == 120
-    assert factorial(0) == 1
-    assert factorial(1) == 1
+    assert factorial(5) == 120  # тест для значения 5
+    assert factorial(0) == 1  # тест для значения 0
+    assert factorial(1) == 1  # тест для значения 1
     assert factorial(3) == 6  # Дополнительный тест для значения 3
 
     with pytest.raises(ValueError):
